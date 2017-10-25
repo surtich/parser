@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { Parser } from '../src'
-import { toUpper } from '../src/util'
+import { Parser } from '../../src'
+import { toUpper } from '../../src/util'
 
 describe('ap', () => {
   it('should applicate a function parser to a parser', () => {

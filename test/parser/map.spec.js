@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { Parser } from '../src'
-import { toUpper } from '../src/util'
+import { Parser } from '../../src'
+import { toUpper } from '../../src/util'
 
 describe('map', () => {
   it('should consume one character and then upper', () => {

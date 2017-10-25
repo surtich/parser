@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Parser } from '../src'
+import { Parser } from '../../src'
 
 describe('item', () => {
   it('should consume one character', () => {

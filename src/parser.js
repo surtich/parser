@@ -1,28 +1,27 @@
 import {
-  isEmpty,
-  head,
-  tail
-} from './util'
+  item,
+  map,
+  pure,
+  ap
+} from './methods'
+
+const create = f => new Parser(f)
 
 export class Parser {
   constructor (f) {
-    this.f = f
+    const g = (...xs) => f(...xs)
+    Object.setPrototypeOf(g, Parser.prototype)
+    return g
   }
-  static item = new Parser(s => isEmpty(s) ? [] : [{x: head(s), xs: tail(s)}])
-  static pure = x => new Parser(xs => [{x, xs}])
+  static item = create(item)
+  static pure = x => create(pure(x))
   map (f) {
-    return new Parser(s => {
-      const [res] = this.parse(s)
-      return isEmpty(res) ? [] : [{x: f(res.x), xs: res.xs}]
-    })
+    return create(map(f, this))
   }
-  ap (px) {
-    return new Parser(s => {
-      const [res] = this.parse(s)
-      return isEmpty(res) ? [] : px.map(res.x).parse(res.xs)
-    })
+  ap (p) {
+    return create(ap(this, p))
   }
   parse (s) {
-    return this.f(s)
+    return this(s)
   }
 }

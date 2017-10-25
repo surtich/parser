@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Parser } from '../src'
+import { Parser } from '../../src'
 
 describe('pure', () => {
   it('should introduce a value into a parser', () => {
