@@ -3,4 +3,6 @@ describe('Parser class', () => {
   require('./map.spec')
   require('./pure.spec')
   require('./ap.spec')
+  require('./lazy.spec')
+  require('./function.spec')
 })
