@@ -4,7 +4,7 @@ node_modules
 # logs
 npm-debug.log
 
-# Nuxt generate
+# dist
 dist
 
 # locks

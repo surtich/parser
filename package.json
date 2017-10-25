@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "dist": "PROD_ENV=true webpack",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "test": "mocha --require babel-register test/index.js"
   },
@@ -24,7 +25,9 @@
   },
   "homepage": "https://github.com/surtich/parser#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.26.0",
@@ -35,6 +38,7 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "webpack": "^3.8.1"
   }
 }
