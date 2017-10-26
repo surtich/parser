@@ -101,6 +101,29 @@ const int = option(
 //    space :: Parser ()
 const space = then(many(sat(isSpace)), pure([]))
 
+//    token :: Parser a -> Parser a
+const token = p =>
+  then(space, flatMap(p, x =>
+    then(space, pure(x))))
+
+//    identifier :: Parser String
+const identifier = token(ident)
+
+//    natural :: Parser Nat
+const natural = token(nat)
+
+//    integer :: Parser Int
+const integer = token(int)
+
+//    symbol :: String -> Parser String
+const symbol = xs => token(string(xs))
+
+//    nats :: Parser [Int]
+const nats =
+  then(symbol('['), flatMap(natural, n =>
+    flatMap(many(then(symbol(','), natural)), ns =>
+      then(symbol(']'), pure([n, ...ns])))))
+
 export {
   item,
   map,
@@ -122,5 +145,11 @@ export {
   ident,
   nat,
   int,
-  space
+  space,
+  token,
+  identifier,
+  natural,
+  integer,
+  symbol,
+  nats
 }
