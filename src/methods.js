@@ -5,7 +5,9 @@ import {
   isDigit,
   isLower,
   isUpper,
-  isAlphanum
+  isAlphanum,
+  toLazy,
+  toEager
 } from './util'
 
 //    item :: Parser Char
@@ -23,7 +25,7 @@ const pure = x => xs => [{x, xs}]
 //    ap :: Parser (a -> b) -> Parser a -> Parser b
 const ap = (pf, px) => s => {
   const [res] = pf(s)
-  return isEmpty(res) ? [] : map(res.x, px)(res.xs)
+  return isEmpty(res) ? [] : map(res.x, toEager(px))(res.xs)
 }
 
 //    flatMap :: Parser a -> (a -> Parser b) -> Parser b
@@ -67,6 +69,16 @@ const char = c => sat(cc => c === cc)
 //    String :: String -> Parser String
 const string = xs => isEmpty(xs) ? pure([]) : then(char(head(xs)), then(string(tail(xs)), pure(xs)))
 
+//    many :: Parser a -> Parser [a]
+const many = p => {
+  return option(some(p), pure(''))
+}
+
+//    some :: Parser a -> Parser [a]
+const some = p => {
+  return ap(map(x => xs => x + xs, p), toLazy(_ => many(p)))
+}
+
 export {
   item,
   map,
@@ -82,5 +94,7 @@ export {
   upper,
   alphanum,
   char,
-  string
+  string,
+  many,
+  some
 }

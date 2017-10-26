@@ -9,3 +9,11 @@ export const isLower = x => x.length === 1 && x >= 'a' && x <= 'z'
 export const isUpper = x => x.length === 1 && x >= 'A' && x <= 'Z'
 export const isAlpha = or(isLower, isUpper)
 export const isAlphanum = or(isAlpha, isDigit)
+
+export const toLazy = f => {
+  const g = _ => f()
+  g.isLazy = true
+  return g
+}
+
+export const toEager = f => f.isLazy ? f() : f

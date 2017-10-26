@@ -13,7 +13,9 @@ import {
   upper,
   alphanum,
   char,
-  string
+  string,
+  many,
+  some
 } from './methods'
 
 const create = f => new Parser(f)
@@ -35,6 +37,8 @@ export class Parser {
   static alphanum = create(alphanum)
   static char = c => create(char(c))
   static string = s => create(string(s))
+  static many = p => create(many(p))
+  static some = p => create(some(p))
 
   map (f) {
     return create(map(f, this))

@@ -8,4 +8,5 @@ describe('methods', () => {
   require('./option.spec')
   require('./sat.spec')
   require('./string.spec')
+  require('./many.some.spec')
 })
