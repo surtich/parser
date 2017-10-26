@@ -1,7 +1,11 @@
 import {
   isEmpty,
   head,
-  tail
+  tail,
+  isDigit,
+  isLower,
+  isUpper,
+  isAlphanum
 } from './util'
 
 //    item :: Parser Char
@@ -22,9 +26,61 @@ const ap = (pf, px) => s => {
   return isEmpty(res) ? [] : map(res.x, px)(res.xs)
 }
 
+//    flatMap :: Parser a -> (a -> Parser b) -> Parser b
+const flatMap = (pa, f) => s => {
+  const [res] = pa(s)
+  if (isEmpty(res)) return []
+  const {x, xs} = res
+  return f(x)(xs)
+}
+
+//    then :: Parser a -> Parser b -> Parser b
+const then = (pa, pb) => flatMap(pa, () => pb)
+
+//    empty :: Parser a
+const empty = _ => []
+
+//    option :: Parser a -> Parser a -> Parser a
+const option = (p, q) => s => {
+  const [res] = p(s)
+  return isEmpty(res) ? q(s) : [res]
+}
+
+//    sat :: (Char -> Bool) -> Parser Char
+const sat = f => flatMap(item, x => f(x) ? pure(x) : empty)
+
+//    digit :: Parser Char
+const digit = sat(isDigit)
+
+//    lower :: Parser Char
+const lower = sat(isLower)
+
+//    upper :: Parser Char
+const upper = sat(isUpper)
+
+//    alphanum :: Parser Char
+const alphanum = sat(isAlphanum)
+
+//    char :: Char -> Parser Char
+const char = c => sat(cc => c === cc)
+
+//    String :: String -> Parser String
+const string = xs => isEmpty(xs) ? pure([]) : then(char(head(xs)), then(string(tail(xs)), pure(xs)))
+
 export {
   item,
   map,
   pure,
-  ap
+  ap,
+  flatMap,
+  then,
+  empty,
+  option,
+  sat,
+  digit,
+  lower,
+  upper,
+  alphanum,
+  char,
+  string
 }

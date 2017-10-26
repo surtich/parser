@@ -9,13 +9,13 @@ const tree = s => {
 }
 
 describe('ap', () => {
-  it('should applicate a function parser to a parser', () => {
+  it('should applicate a function parser two a parser', () => {
     expect(ap(pure(x => toUpper(x)), item)('abc')).to.deep.equal([{x: 'A', xs: 'bc'}])
   })
   it('should fail', () => {
     expect(ap(pure(x => toUpper(x)), item)('')).to.deep.equal([])
   })
-  it('should create a Parser that consumes to characters', () => {
+  it('should create a Parser that consumes two characters', () => {
     expect(tree('abcdef')).to.deep.equal([{x: ['a', 'c'], xs: 'def'}])
   })
   it('should fail', () => {

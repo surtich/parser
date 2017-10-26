@@ -9,7 +9,7 @@ describe('ap', () => {
   it('should fail', () => {
     expect(Parser.pure(x => toUpper(x)).ap(Parser.item).parse('')).to.deep.equal([])
   })
-  it('should create a Parser that consumes to characters', () => {
+  it('should create a Parser that consumes two characters', () => {
     expect(
       Parser.pure(x => _ => z => [x, z])
         .ap(Parser.item)
