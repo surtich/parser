@@ -1,4 +1,5 @@
 import {
+  curry,
   isEmpty,
   head,
   tail,
@@ -6,6 +7,7 @@ import {
   isLower,
   isUpper,
   isAlphanum,
+  isSpace,
   toLazy,
   toEager
 } from './util'
@@ -29,12 +31,12 @@ const ap = (pf, px) => s => {
 }
 
 //    flatMap :: Parser a -> (a -> Parser b) -> Parser b
-const flatMap = (pa, f) => s => {
+const flatMap = curry((pa, f) => s => {
   const [res] = pa(s)
   if (isEmpty(res)) return []
   const {x, xs} = res
   return f(x)(xs)
-}
+})
 
 //    then :: Parser a -> Parser b -> Parser b
 const then = (pa, pb) => flatMap(pa, () => pb)
@@ -79,6 +81,26 @@ const some = p => {
   return ap(map(x => xs => x + xs, p), toLazy(_ => many(p)))
 }
 
+//    ident :: Parser String
+const ident =
+  flatMap(lower, x =>
+    flatMap(many(alphanum), xs =>
+      pure(x + xs)))
+
+//    nat :: Parser Nat
+const nat =
+  flatMap(some(digit), xs =>
+    pure(parseInt(xs, 10)))
+
+//    int :: Parser Int
+const int = option(
+  then(char('-'), flatMap(nat, n =>
+    pure(-parseInt(n, 10)))),
+  nat)
+
+//    space :: Parser ()
+const space = then(many(sat(isSpace)), pure([]))
+
 export {
   item,
   map,
@@ -96,5 +118,9 @@ export {
   char,
   string,
   many,
-  some
+  some,
+  ident,
+  nat,
+  int,
+  space
 }

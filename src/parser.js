@@ -15,7 +15,11 @@ import {
   char,
   string,
   many,
-  some
+  some,
+  ident,
+  nat,
+  int,
+  space
 } from './methods'
 
 const create = f => new Parser(f)
@@ -39,6 +43,10 @@ export class Parser {
   static string = s => create(string(s))
   static many = p => create(many(p))
   static some = p => create(some(p))
+  static ident = create(ident)
+  static nat = create(nat)
+  static int = create(int)
+  static space = create(space)
 
   map (f) {
     return create(map(f, this))

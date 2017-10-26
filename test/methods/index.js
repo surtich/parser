@@ -9,4 +9,7 @@ describe('methods', () => {
   require('./sat.spec')
   require('./string.spec')
   require('./many.some.spec')
+  require('./ident.spec')
+  require('./int.spec')
+  require('./space.spec')
 })
