@@ -7,9 +7,7 @@ import {
   isLower,
   isUpper,
   isAlphanum,
-  isSpace,
-  toLazy,
-  toEager
+  isSpace
 } from './util'
 
 //    item :: Parser Char
@@ -27,7 +25,7 @@ const pure = x => xs => [{x, xs}]
 //    ap :: Parser (a -> b) -> Parser a -> Parser b
 const ap = (pf, px) => s => {
   const [res] = pf(s)
-  return isEmpty(res) ? [] : map(res.x, toEager(px))(res.xs)
+  return isEmpty(res) ? [] : map(res.x, px)(res.xs)
 }
 
 //    flatMap :: Parser a -> (a -> Parser b) -> Parser b
@@ -78,7 +76,7 @@ const many = p => {
 
 //    some :: Parser a -> Parser [a]
 const some = p => {
-  return ap(map(x => xs => x + xs, p), toLazy(_ => many(p)))
+  return ap(map(x => xs => x + xs, p), (...xs) => many(p)(...xs))
 }
 
 //    ident :: Parser String

@@ -13,11 +13,3 @@ export const is = x => y => x === y
 export const isAlpha = or(isLower, isUpper)
 export const isAlphanum = or(or(isAlpha, isDigit), or(is('_'), is('$')))
 export const isSpace = x => x === ' '
-
-export const toLazy = f => {
-  const g = _ => f()
-  g.isLazy = true
-  return g
-}
-
-export const toEager = f => f.isLazy ? f() : f
